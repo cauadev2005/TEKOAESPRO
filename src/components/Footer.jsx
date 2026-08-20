@@ -1,0 +1,1 @@
+export default function Footer(){return <footer><div className="footer-brand"><i className="bi bi-leaf"/> TEKOÁ</div><p>Conscientização, Educação e Harmonia com a Natureza</p><p>Projeto Gestores do Futuro | ESPRO</p><small>© 2026 TEKOÁ</small></footer>}
