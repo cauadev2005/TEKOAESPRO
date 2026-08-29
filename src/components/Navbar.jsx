@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const links=[['Início','inicio'],['Nossa Essência','essencia'],['Missão','identidade'],['Pilares','pilares'],['Como Atuamos','atuacao'],['Impacto','impacto'],['Contato','contato']];
+const links=[['Início','inicio'],['Essência','essencia'],['Organização','equipe'],['Como Atuamos','atuacao'],['Jornal','jornal'],['Avaliação','avaliacao'],['Contato','contato']];
 export default function Navbar(){
  const [open,setOpen]=useState(false),[scrolled,setScrolled]=useState(false),[active,setActive]=useState('inicio');
  useEffect(()=>{const fn=()=>setScrolled(scrollY>24);addEventListener('scroll',fn);return()=>removeEventListener('scroll',fn)},[]);
