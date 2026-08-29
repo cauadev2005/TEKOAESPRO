@@ -38,6 +38,23 @@ function Hero() {
   return (
     <section id="inicio" className="hero">
       <div className="hero-bg" />
+      <video
+        className="hero-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/images/hero-vale-tekoa.png"
+        disablePictureInPicture
+        tabIndex={-1}
+        aria-hidden="true"
+      >
+        <source
+          src="https://v6qbtzuporw1cqzj.public.blob.vercel-storage.com/videoplayback.mp4"
+          type="video/mp4"
+        />
+      </video>
       <div className="hero-shade" />
       <motion.div
         className="hero-content"

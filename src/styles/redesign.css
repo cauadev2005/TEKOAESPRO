@@ -36,3 +36,10 @@ main>section:not(.hero){border:0!important}main>section:not(.hero):before{displa
 @keyframes photo-breathe-alt{from{transform:scale(1.05) translateY(-1%)}to{transform:scale(1.015) translateY(1%)}}
 @media(max-width:850px){.quote,.contact{animation-duration:26s}.hero-bg{background-position:62% center}.why:after,.pillars:after,.internal-news:after{width:320px;height:320px}}
 @media(prefers-reduced-motion:reduce){.hero-bg,.hero:after,.quote,.quote:after,.contact,.contact:after,.why:after,.pillars:after,.internal-news:after,.photo-card:after,.action-photo:after,.photo-card img,.action-photo img{animation:none!important}}
+
+/* Vercel Blob background video */
+.hero-video{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;animation:video-drift 18s var(--ease) infinite alternate;background:url('/images/hero-vale-tekoa.png') center/cover}
+.hero-bg{z-index:0}.hero-shade{z-index:1}.hero:after{z-index:1}.hero-content,.scroll-cue{z-index:2}
+@keyframes video-drift{from{transform:scale(1.01)}to{transform:scale(1.065)}}
+@media(max-width:850px){.hero-video{object-position:58% center;animation-duration:24s}}
+@media(prefers-reduced-motion:reduce){.hero-video{display:none}}
