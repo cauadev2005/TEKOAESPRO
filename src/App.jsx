@@ -1123,6 +1123,17 @@ function SiteLoader() {
     </motion.div>
   );
 }
+function CursorAura() {
+  useEffect(() => {
+    const move = (event) => {
+      document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
+      document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
+    };
+    window.addEventListener("pointermove", move, { passive: true });
+    return () => window.removeEventListener("pointermove", move);
+  }, []);
+  return <div className="cursor-aura" aria-hidden="true" />;
+}
 export default function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -1132,6 +1143,7 @@ export default function App() {
   return (
     <>
       <AnimatePresence>{loading && <SiteLoader />}</AnimatePresence>
+      <CursorAura />
       <Navbar />
       <main>
         <Hero />
