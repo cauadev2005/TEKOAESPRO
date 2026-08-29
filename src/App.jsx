@@ -1,10 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Reveal, SectionTitle } from "./components/UI";
 
 const BI = ({ name }) => <i className={`bi bi-${name}`} />;
+function useModalBehavior(open, close) {
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const key = (e) => e.key === "Escape" && close();
+    document.addEventListener("keydown", key);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", key);
+    };
+  }, [open, close]);
+}
 const identity = [
   {
     icon: "flower1",
@@ -35,26 +48,52 @@ const tags = [
 
 const heroItem = { hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0 } };
 function Hero() {
+  const videoRef = useRef(null);
+  const [videoReady, setVideoReady] = useState(false);
+  const [motionEnabled, setMotionEnabled] = useState(
+    () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !motionEnabled) return;
+    const observer = new IntersectionObserver(
+      ([entry]) =>
+        entry.isIntersecting ? video.play().catch(() => {}) : video.pause(),
+      { threshold: 0.15 },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [motionEnabled]);
+  const toggleMotion = () => {
+    const next = !motionEnabled;
+    setMotionEnabled(next);
+    if (!next) videoRef.current?.pause();
+    else videoRef.current?.play().catch(() => {});
+  };
   return (
     <section id="inicio" className="hero">
       <div className="hero-bg" />
-      <video
-        className="hero-video"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster="/images/hero-vale-tekoa.png"
-        disablePictureInPicture
-        tabIndex={-1}
-        aria-hidden="true"
-      >
-        <source
-          src="https://v6qbtzuporw1cqzj.public.blob.vercel-storage.com/videoplayback.mp4"
-          type="video/mp4"
-        />
-      </video>
+      {motionEnabled && (
+        <video
+          ref={videoRef}
+          className={`hero-video ${videoReady ? "is-ready" : ""}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/hero-vale-tekoa.png"
+          disablePictureInPicture
+          tabIndex={-1}
+          aria-hidden="true"
+          onLoadedData={() => setVideoReady(true)}
+        >
+          <source
+            src="https://v6qbtzuporw1cqzj.public.blob.vercel-storage.com/videoplayback.mp4"
+            type="video/mp4"
+          />
+        </video>
+      )}
       <div className="hero-shade" />
       <motion.div
         className="hero-content"
@@ -88,6 +127,16 @@ function Hero() {
         <span>Descubra</span>
         <BI name="arrow-down" />
       </a>
+      <button
+        className="hero-motion"
+        onClick={toggleMotion}
+        aria-label={
+          motionEnabled ? "Pausar vídeo de fundo" : "Ativar vídeo de fundo"
+        }
+      >
+        <BI name={motionEnabled ? "pause-fill" : "play-fill"} />
+        <span>{motionEnabled ? "Pausar movimento" : "Ativar movimento"}</span>
+      </button>
     </section>
   );
 }
@@ -483,6 +532,7 @@ function Organization() {
         d.members.some((m) => m.toLowerCase().includes(query.toLowerCase()))),
   );
   const current = departments.find((d) => d.name === selected);
+  useModalBehavior(profile, () => setProfile(null));
   return (
     <section id="equipe" className="organization">
       <div className="organization__head">
@@ -697,6 +747,7 @@ function InternalNews() {
           .toLowerCase()
           .includes(query.toLowerCase())),
   );
+  useModalBehavior(opened, () => setOpened(null));
   return (
     <section id="jornal" className="internal-news">
       <Reveal className="internal-news__head">
@@ -820,7 +871,28 @@ function Rating({ name, label }) {
           </label>
         ))}
       </div>
+      <div className="rating-hints">
+        <span>Precisa evoluir</span>
+        <span>Excelente</span>
+      </div>
     </fieldset>
+  );
+}
+function FeedbackTextarea({ name, label, placeholder }) {
+  const [value, setValue] = useState("");
+  return (
+    <label>
+      {label}
+      <textarea
+        name={name}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder={placeholder}
+        maxLength={500}
+        required
+      />
+      <small className="char-count">{value.length}/500</small>
+    </label>
   );
 }
 function PerformanceReview() {
@@ -955,22 +1027,16 @@ function PerformanceReview() {
               <Rating name="comunicacao" label="Comunicação" />
               <Rating name="comprometimento" label="Comprometimento" />
             </div>
-            <label>
-              Pontos fortes
-              <textarea
-                name="pontosFortes"
-                placeholder="O que deve ser reconhecido e mantido?"
-                required
-              />
-            </label>
-            <label>
-              Oportunidades de melhoria
-              <textarea
-                name="melhorias"
-                placeholder="Quais pontos podem evoluir?"
-                required
-              />
-            </label>
+            <FeedbackTextarea
+              name="pontosFortes"
+              label="Pontos fortes"
+              placeholder="O que deve ser reconhecido e mantido?"
+            />
+            <FeedbackTextarea
+              name="melhorias"
+              label="Oportunidades de melhoria"
+              placeholder="Quais pontos podem evoluir?"
+            />
             <div className="review-nav">
               <button type="button" onClick={() => setStep(1)}>
                 <BI name="arrow-left" /> Voltar
@@ -1143,8 +1209,14 @@ function SiteLoader() {
 function CursorAura() {
   useEffect(() => {
     const move = (event) => {
-      document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
-      document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
+      document.documentElement.style.setProperty(
+        "--pointer-x",
+        `${event.clientX}px`,
+      );
+      document.documentElement.style.setProperty(
+        "--pointer-y",
+        `${event.clientY}px`,
+      );
     };
     window.addEventListener("pointermove", move, { passive: true });
     return () => window.removeEventListener("pointermove", move);
