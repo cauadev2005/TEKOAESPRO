@@ -137,3 +137,38 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 @media(max-width:1100px){.org-departments{grid-template-columns:repeat(3,1fr)}.org-departments:before,.org-unit:before,.org-line{display:none}.org-ceo{margin-bottom:20px}.performance{gap:45px;grid-template-columns:.8fr 1.2fr}.ratings{grid-template-columns:1fr}}
 @media(max-width:780px){.organization,.internal-news,.performance{padding-top:90px;padding-bottom:90px}.org-departments,.news-grid{grid-template-columns:1fr 1fr}.performance{grid-template-columns:1fr}.performance__intro{position:static}.review-panel{padding:25px}.form-row{grid-template-columns:1fr}}
 @media(max-width:520px){.org-departments,.news-grid{grid-template-columns:1fr}.org-ceo{width:100%}.org-card{min-height:auto}.ratings{grid-template-columns:1fr}.review-panel{padding:20px}}
+
+/* Final interface polish and single lateral scrollbar */
+html{scrollbar-width:thin;scrollbar-color:#8f928f #2b2d2c}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:block;width:11px;height:0}
+html::-webkit-scrollbar-track,body::-webkit-scrollbar-track{background:#2b2d2c}
+html::-webkit-scrollbar-thumb,body::-webkit-scrollbar-thumb{background:#777a77;border:3px solid #2b2d2c;border-radius:999px}
+html::-webkit-scrollbar-thumb:hover,body::-webkit-scrollbar-thumb:hover{background:#afb2af}
+.scroll-progress{display:none}
+body{background:#353736}
+main>section:not(.hero){position:relative;border-top:1px solid rgba(255,255,255,.055)}
+main>section:not(.hero):before{content:'';position:absolute;top:-1px;left:max(3vw,20px);width:54px;height:1px;background:#fff;opacity:.42}
+.intro:after,.impact-intro:after{content:'TEKOÁ';position:absolute;right:4vw;bottom:24px;color:#ffffff08;font-size:clamp(70px,13vw,180px);font-weight:800;letter-spacing:-.08em;pointer-events:none}
+.intro>*,.impact-intro>*{position:relative;z-index:1}
+.section-title h2,.internal-news__head h2,.performance__intro h2{text-wrap:balance}
+.section-title span,.internal-news__head>span,.performance__intro>span{position:relative;padding-left:34px}
+.section-title span:before,.internal-news__head>span:before,.performance__intro>span:before{content:'';position:absolute;left:0;top:50%;width:22px;height:1px;background:currentColor}
+.identity-card,.pillar-card,.org-card,.news-card,.review-panel{box-shadow:0 22px 60px rgba(0,0,0,.08)}
+.identity-card,.org-card,.news-card,.review-panel,.pillar-card{border-radius:2px}
+.identity-card:hover,.org-card:hover,.news-card:hover,.pillar-card:hover{box-shadow:0 28px 65px rgba(0,0,0,.18)}
+.photo-card img,.action-photo img{filter:contrast(1.02) saturate(.94)}
+.photo-card:after,.action-photo:after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(0,0,0,.18));pointer-events:none}
+.action-photo>div,.photo-card>span{z-index:2}
+.why,.commit,.performance,.contact{background-image:radial-gradient(circle at 85% 15%,rgba(255,255,255,.045),transparent 26%)}
+.news-card:nth-child(2){transform:translateY(18px)}
+.news-card:nth-child(2):hover{transform:translateY(12px)}
+.review-panel{box-shadow:0 35px 80px rgba(0,0,0,.18)}
+.review-panel input,.review-panel select,.review-panel textarea{transition:border-color .2s ease,background .2s ease,box-shadow .2s ease}
+.review-panel input:focus,.review-panel select:focus,.review-panel textarea:focus{box-shadow:0 0 0 3px rgba(255,255,255,.07)}
+.back-to-top{position:fixed;z-index:30;right:25px;bottom:24px;width:54px;height:54px;border:1px solid #fff;background:#fff;color:#171817;display:grid;place-items:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .3s ease,transform .3s ease,visibility .3s ease,background .2s ease}
+.back-to-top span{position:absolute;right:62px;background:#fff;color:#171817;padding:7px 10px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.13em;opacity:0;transform:translateX(6px);transition:.2s;pointer-events:none}
+.back-to-top:hover{background:#dfe1df}.back-to-top:hover span{opacity:1;transform:none}
+.back-to-top.is-visible{opacity:1;visibility:visible;transform:none}
+.back-to-top i{font-size:18px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(max-width:780px){.news-card:nth-child(2),.news-card:nth-child(2):hover{transform:none}.back-to-top{right:16px;bottom:16px;width:48px;height:48px}.intro:after,.impact-intro:after{display:none}}
