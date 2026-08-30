@@ -50,50 +50,73 @@ const heroItem = { hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0 } };
 function Hero() {
   const videoRef = useRef(null);
   const [videoReady, setVideoReady] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(
     () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !motionEnabled) return;
+    if (!video) return;
+    video.muted = true;
+    video.defaultMuted = true;
+    if (!motionEnabled) {
+      video.pause();
+      return;
+    }
     const observer = new IntersectionObserver(
       ([entry]) =>
-        entry.isIntersecting ? video.play().catch(() => {}) : video.pause(),
+        entry.isIntersecting
+          ? video.play().catch(() => setVideoPlaying(false))
+          : video.pause(),
       { threshold: 0.15 },
     );
     observer.observe(video);
     return () => observer.disconnect();
   }, [motionEnabled]);
   const toggleMotion = () => {
-    const next = !motionEnabled;
-    setMotionEnabled(next);
-    if (!next) videoRef.current?.pause();
-    else videoRef.current?.play().catch(() => {});
+    if (videoPlaying) {
+      setMotionEnabled(false);
+      videoRef.current?.pause();
+    } else {
+      setMotionEnabled(true);
+      if (videoRef.current) {
+        videoRef.current.muted = true;
+        videoRef.current.play().catch(() => setVideoPlaying(false));
+      }
+    }
   };
   return (
     <section id="inicio" className="hero">
       <div className="hero-bg" />
-      {motionEnabled && (
-        <video
-          ref={videoRef}
-          className={`hero-video ${videoReady ? "is-ready" : ""}`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/images/hero-vale-tekoa.png"
-          disablePictureInPicture
-          tabIndex={-1}
-          aria-hidden="true"
-          onLoadedData={() => setVideoReady(true)}
-        >
-          <source
-            src="https://v6qbtzuporw1cqzj.public.blob.vercel-storage.com/videoplayback.mp4"
-            type="video/mp4"
-          />
-        </video>
-      )}
+      <video
+        ref={videoRef}
+        className={`hero-video ${videoReady ? "is-ready" : ""}`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/images/hero-vale-tekoa.png"
+        disablePictureInPicture
+        tabIndex={-1}
+        aria-hidden="true"
+        onLoadedData={() => {
+          setVideoReady(true);
+          if (motionEnabled)
+            videoRef.current?.play().catch(() => setVideoPlaying(false));
+        }}
+        onCanPlay={() =>
+          motionEnabled &&
+          videoRef.current?.play().catch(() => setVideoPlaying(false))
+        }
+        onPlay={() => setVideoPlaying(true)}
+        onPause={() => setVideoPlaying(false)}
+      >
+        <source
+          src="https://v6qbtzuporw1cqzj.public.blob.vercel-storage.com/videoplayback.mp4"
+          type="video/mp4"
+        />
+      </video>
       <div className="hero-shade" />
       <motion.div
         className="hero-content"
@@ -131,11 +154,11 @@ function Hero() {
         className="hero-motion"
         onClick={toggleMotion}
         aria-label={
-          motionEnabled ? "Pausar vídeo de fundo" : "Ativar vídeo de fundo"
+          videoPlaying ? "Pausar vídeo de fundo" : "Ativar vídeo de fundo"
         }
       >
-        <BI name={motionEnabled ? "pause-fill" : "play-fill"} />
-        <span>{motionEnabled ? "Pausar movimento" : "Ativar movimento"}</span>
+        <BI name={videoPlaying ? "pause-fill" : "play-fill"} />
+        <span>{videoPlaying ? "Pausar movimento" : "Ativar movimento"}</span>
       </button>
     </section>
   );
