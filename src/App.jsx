@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Reveal, SectionTitle } from "./components/UI";
+import ProstateAwareness from "./components/ProstateAwareness";
 
 const BI = ({ name }) => <i className={`bi bi-${name}`} />;
 function useModalBehavior(open, close) {
@@ -443,7 +444,7 @@ const faqs = [
   ],
   [
     "Como publicar um comunicado?",
-    "Neste momento os comunicados são atualizados no projeto. Uma área administrativa segura poderá ser adicionada na próxima etapa.",
+    "Os comunicados são organizados pela equipe responsável pelo projeto e apresentados no Jornal Interno.",
   ],
 ];
 function FAQ() {
@@ -1248,15 +1249,35 @@ function CursorAura() {
 }
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(() =>
+    window.location.hash === "#saude-do-homem" ? "health" : "home",
+  );
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1350);
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    const syncPage = () =>
+      setPage(window.location.hash === "#saude-do-homem" ? "health" : "home");
+    window.addEventListener("hashchange", syncPage);
+    return () => window.removeEventListener("hashchange", syncPage);
+  }, []);
+  const openHealth = () => {
+    window.location.hash = "saude-do-homem";
+    setPage("health");
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+  const closeHealth = () => {
+    history.replaceState(null, "", `${location.pathname}${location.search}`);
+    setPage("home");
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+  if (page === "health") return <ProstateAwareness onBack={closeHealth} />;
   return (
     <>
       <AnimatePresence>{loading && <SiteLoader />}</AnimatePresence>
       <CursorAura />
-      <Navbar />
+      <Navbar onHealth={openHealth} />
       <main>
         <Hero />
         <IdentityIntro />

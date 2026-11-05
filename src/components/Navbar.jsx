@@ -5,11 +5,12 @@ const links = [
   ["Essência", "essencia"],
   ["Organização", "equipe"],
   ["Como Atuamos", "atuacao"],
+  ["Saúde do Homem", "saude-homem"],
   ["Jornal", "jornal"],
   ["Avaliação", "avaliacao"],
   ["Contato", "contato"],
 ];
-export default function Navbar() {
+export default function Navbar({ onHealth }) {
   const [open, setOpen] = useState(false),
     [scrolled, setScrolled] = useState(false),
     [active, setActive] = useState("inicio");
@@ -48,6 +49,11 @@ export default function Navbar() {
     };
   }, [open]);
   const go = (id) => {
+    if (id === "saude-homem") {
+      setOpen(false);
+      onHealth();
+      return;
+    }
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setOpen(false);
   };
