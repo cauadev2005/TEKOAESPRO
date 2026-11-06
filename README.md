@@ -13,7 +13,7 @@ Site institucional one-page do projeto TEKOÁ, dedicado à conscientização, ed
 - Página independente com uma sequência visual preparada para apresentação
 - Contadores animados e gráfico regional
 - Mapa interativo por regiões
-- Experiência “Anatomia em foco” com órgãos e explicações interativas
+- Mapa conceitual “Anatomia em foco” com relações interativas
 - Indicador lateral de progresso
 - Cards de mito ou fato com revelação
 - Modo apresentação controlado pelas setas do teclado
@@ -116,3 +116,56 @@ Fala sugerida para encerrar a dinâmica:
 > “Hoje nós quebramos quatro barreiras e acendemos quatro atitudes. A conversa não precisa terminar aqui: informação confiável pode ser compartilhada com amigos e familiares.”
 
 A dinâmica leva aproximadamente **2 a 3 minutos** e pode ser usada antes do encerramento da apresentação.
+
+### O que falar durante cada ato
+
+#### Ato 1 — Número misterioso
+
+Mostre apenas `77.920` e pergunte:
+
+> “Antes de eu explicar, alguém imagina o que este número representa?”
+
+Espere algumas respostas e clique em **Revelar resposta**. Depois diga:
+
+> “Esta é a quantidade de novos casos de câncer de próstata estimada por ano no Brasil entre 2026 e 2028. Não é apenas um número: são milhares de homens e famílias que podem ser impactados.”
+
+#### Ato 2 — Quebre o silêncio
+
+Pergunte:
+
+> “Por que alguns homens ainda evitam falar sobre a própria saúde?”
+
+Conforme a turma responder, clique em **Vergonha**, **Medo**, **Preconceito** e **Desinformação**. Quando todas desaparecerem, diga:
+
+> “Essas barreiras não são físicas, mas podem atrasar a procura por orientação. Combater o silêncio também faz parte do cuidado.”
+
+#### Ato 3 — Escolha uma atitude
+
+Peça que a turma escolha quais atitudes considera mais importantes. Clique nas opções citadas e explique:
+
+> “Cada atitude escolhida acende uma parte do laço. Isso mostra que a prevenção e a conscientização não dependem de uma única ação, mas de várias escolhas feitas em conjunto.”
+
+Quando o laço estiver aceso, conclua:
+
+> “O laço só fica completo quando transformamos informação em atitude.”
+
+#### Ato 4 — Leve com você
+
+Mostre o QR Code e diga:
+
+> “Este código leva para a página oficial do Ministério da Saúde. Assim, ninguém precisa depender de informações duvidosas ou mensagens compartilhadas sem fonte.”
+
+Espere alguns segundos para quem quiser apontar a câmera. Depois encerre:
+
+> “Se esta apresentação fizer pelo menos uma pessoa conversar sobre saúde com alguém da família, então ela já cumpriu uma parte importante do seu objetivo.”
+
+### Ordem recomendada da apresentação completa
+
+1. Abra com a hero **Cuidar é coragem**.
+2. Mostre os números e o gráfico regional.
+3. Explique o mapa conceitual da próstata.
+4. Passe rapidamente por prevenção, sinais e exames.
+5. Abra a experiência **Quebre o Silêncio**.
+6. Encerre com o QR Code e a mensagem final.
+
+Tempo total estimado: **7 a 10 minutos**, incluindo a participação da turma.
